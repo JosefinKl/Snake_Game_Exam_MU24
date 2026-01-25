@@ -1,0 +1,1 @@
+console.log("JavaScript-filen är kopplad!");
