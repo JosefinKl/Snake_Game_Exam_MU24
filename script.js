@@ -56,6 +56,18 @@ function update() {
 
     }
 
+    if (head.x < 0 ||
+        head.x >= tileCount ||
+        head.y < 0 ||
+        head.y >= tileCount
+        ) {
+        console.log("förlora");
+        clearInterval(game); // stoppa spelet
+        alert("Game Over!");
+        snake = [{ x: tileCount/2, y: tileCount/2 }];
+        
+        }
+
            
 }
 
@@ -73,7 +85,7 @@ function draw() {
   }
 
   ctx.fillStyle = "red";
-  foodPosition();
+  
   
     ctx.fillRect(
         food.x * gridSize,
