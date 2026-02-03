@@ -144,14 +144,7 @@ function draw() {
     );
   }
 
-  //ctx.fillStyle = "red";
-  
-  //ctx.fillRect(
-       // food.x * gridSize,
-       // food.y * gridSize,
-       // gridSize,
-       // gridSize
-    //);
+ 
 
     const foodSize = 40;
 
