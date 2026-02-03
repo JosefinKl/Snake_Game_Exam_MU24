@@ -12,7 +12,7 @@ poisonImg.onload = () => {
 const appleImg = new Image();
 appleImg.src = "apple.png";
 appleImg.onload = () => {
-  console.log("Poison-bilden laddad!");
+  console.log("Apple-bilden laddad!");
 };
 
 
@@ -21,7 +21,7 @@ const tileCount = 20;        // number of boxes per row/coloumn
 const poisonSize = 40 + Math.sin(Date.now() / 200) * 3;
 
 
-
+let gameSpeed = 300;
 let snake = [{ x: tileCount/2, y: tileCount/2 }]; // start in the midle of the canvas
 let dx = 1;  // movement
 let dy = 0;  // movement
@@ -66,7 +66,17 @@ function gameLoop() {
   update();
   draw();
   
-  
+    // Adjust speed dynamically
+    if(snake.length > 12){
+        gameSpeed = 50;
+    } else if(snake.length > 8){
+        gameSpeed = 100;
+    } else if(snake.length > 4){
+        gameSpeed = 200;
+    } else {
+        gameSpeed = 300;
+    }
+    setTimeout(gameLoop, gameSpeed);
   
 }
 
@@ -81,6 +91,9 @@ function update() {
   
     if (head.x === food.x && head.y === food.y){
         food = foodPosition();
+        if (poison.x === food.x && poison.y === food.y) {
+            poison = poisonPosition();
+        }
         
     }else if (head.x === poison.x && head.y === poison.y) {
         gameOver();
@@ -166,7 +179,6 @@ function draw() {
 }
 
 
+setTimeout(gameLoop, gameSpeed);
 
 
-
-setInterval(gameLoop, 300); //set snake speed. Change to lower to get a faster snake. 
