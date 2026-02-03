@@ -61,20 +61,33 @@ function update() {
         head.y < 0 ||
         head.y >= tileCount
         ) {
-        console.log("förlora");
-        clearInterval(game); // stoppa spelet
-        alert("Game Over!");
-        snake = [{ x: tileCount/2, y: tileCount/2 }];
+            gameOver();
         
         }
-
+        // Check if snake hits itself, but not the head.
+    if (snake.length > 1) {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[i].x === head.x && snake[i].y === head.y) {
+            gameOver();
+        }
+    }
+}
            
+}
+
+function gameOver(){
+    console.log("förlora");
+            clearInterval(game); // stoppa spelet
+            alert("Game Over!");
+            snake = [{ x: tileCount/2, y: tileCount/2 }];
+
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);  //empty the canvas
 
   ctx.fillStyle = "green";
+  
   for (let part of snake) {
     ctx.fillRect(
       part.x * gridSize,
