@@ -9,6 +9,12 @@ poisonImg.onload = () => {
   console.log("Poison-bilden laddad!");
 };
 
+const appleImg = new Image();
+appleImg.src = "apple.png";
+appleImg.onload = () => {
+  console.log("Poison-bilden laddad!");
+};
+
 
 const gridSize = 20;          //size of one box
 const tileCount = 20;        // number of boxes per row/coloumn
@@ -120,17 +126,28 @@ function draw() {
     );
   }
 
-  ctx.fillStyle = "red";
+  //ctx.fillStyle = "red";
   
-  
-    ctx.fillRect(
-        food.x * gridSize,
-        food.y * gridSize,
-        gridSize,
-        gridSize
-    );
-    
+  //ctx.fillRect(
+       // food.x * gridSize,
+       // food.y * gridSize,
+       // gridSize,
+       // gridSize
+    //);
+
     const poisonSize = 40 + Math.sin(Date.now() / 100) * 5;
+
+    ctx.drawImage(
+        appleImg,
+        food.x * gridSize - (poisonSize - gridSize) / 2,
+        food.y * gridSize - (poisonSize - gridSize) / 2,
+        poisonSize,
+        poisonSize
+        );
+    
+
+    
+    
     ctx.drawImage(
         poisonImg,
         poison.x * gridSize - (poisonSize - gridSize) / 2,
