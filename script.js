@@ -55,6 +55,11 @@ function poisonPosition() {
 
 let poison = poisonPosition();
 
+//Poison and food not in same place
+if(poison.x === food.x && poison.y === food.y){
+    poison = poisonPosition();
+}
+
 
 
 function gameLoop() {
@@ -135,18 +140,18 @@ function draw() {
        // gridSize
     //);
 
-    const poisonSize = 40 + Math.sin(Date.now() / 100) * 5;
+    const foodSize = 40;
 
     ctx.drawImage(
         appleImg,
-        food.x * gridSize - (poisonSize - gridSize) / 2,
-        food.y * gridSize - (poisonSize - gridSize) / 2,
-        poisonSize,
-        poisonSize
+        food.x * gridSize - (foodSize - gridSize) / 2,
+        food.y * gridSize - (foodSize - gridSize) / 2,
+        foodSize,
+        foodSize
         );
     
 
-    
+    const poisonSize = 40 + Math.sin(Date.now() / 100) * 5;
     
     ctx.drawImage(
         poisonImg,
