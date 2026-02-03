@@ -3,9 +3,18 @@ console.log("JavaScript-filen är kopplad!");
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
+const poisonImg = new Image();
+poisonImg.src = "poison.png";
+poisonImg.onload = () => {
+  console.log("Poison-bilden laddad!");
+};
+
 
 const gridSize = 20;          //size of one box
 const tileCount = 20;        // number of boxes per row/coloumn
+const poisonSize = 40 + Math.sin(Date.now() / 200) * 3;
+
+
 
 let snake = [{ x: tileCount/2, y: tileCount/2 }]; // start in the midle of the canvas
 let dx = 1;  // movement
@@ -30,11 +39,22 @@ function foodPosition() {
 
 let food = foodPosition();
 
+//Poison
+function poisonPosition() {
+  return {
+    x: Math.floor(Math.random() * tileCount),
+    y: Math.floor(Math.random() * tileCount)
+  };
+}
+
+let poison = poisonPosition();
+
 
 
 function gameLoop() {
   update();
   draw();
+  
   
   
 }
@@ -50,6 +70,9 @@ function update() {
   
     if (head.x === food.x && head.y === food.y){
         food = foodPosition();
+        
+    }else if (head.x === poison.x && head.y === poison.y) {
+        gameOver();
         
     }else{
         snake.pop();
@@ -105,7 +128,18 @@ function draw() {
         food.y * gridSize,
         gridSize,
         gridSize
-);
+    );
+    
+    const poisonSize = 40 + Math.sin(Date.now() / 100) * 5;
+    ctx.drawImage(
+        poisonImg,
+        poison.x * gridSize - (poisonSize - gridSize) / 2,
+        poison.y * gridSize - (poisonSize - gridSize) / 2,
+        poisonSize,
+        poisonSize
+        );
+
+
 
 }
 
