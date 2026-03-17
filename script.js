@@ -71,16 +71,27 @@ if(poison.x === food.x && poison.y === food.y){
 }
 
 
+let newPoisonPosition = false;
 
 function gameLoop() {
   if (!running) return;
 
   update();
   draw();
+
+  if(Math.random() < 0.01){
+    newPoisonPosition = true;
+  }
+
+  if(newPoisonPosition){
+      poison = poisonPosition();
+      newPoisonPosition = false;
+    }
   
     // Adjust speed dynamically
     if(snake.length > 12){
         gameSpeed = 50;
+        
     } else if(snake.length > 8){
         gameSpeed = 100;
     } else if(snake.length > 4){
@@ -89,6 +100,8 @@ function gameLoop() {
         gameSpeed = 300;
     }
     setTimeout(gameLoop, gameSpeed);
+
+    
   
 }
 
