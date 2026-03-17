@@ -15,12 +15,20 @@ appleImg.onload = () => {
   console.log("Apple-bilden laddad!");
 };
 
+const birdImg = new Image();
+birdImg.src = "bird.png";
+birdImg.onload = () => {
+  console.log("Fågel-bilden laddad!");
+};
+
 
 const gridSize = 20;          //size of one box
 const tileCount = 20;        // number of boxes per row/coloumn
 const poisonSize = 40 + Math.sin(Date.now() / 200) * 3;
 
 
+
+let running = true;
 let gameSpeed = 300;
 let snake = [{ x: tileCount/2, y: tileCount/2 }]; // start in the midle of the canvas
 let dx = 1;  // movement
@@ -54,6 +62,8 @@ function poisonPosition() {
 }
 
 let poison = poisonPosition();
+let bird = null;
+let birdActive = false;
 
 //Poison and food not in same place
 if(poison.x === food.x && poison.y === food.y){
@@ -63,6 +73,8 @@ if(poison.x === food.x && poison.y === food.y){
 
 
 function gameLoop() {
+  if (!running) return;
+
   update();
   draw();
   
@@ -111,6 +123,35 @@ function update() {
             gameOver();
         
         }
+
+    // Bird attack
+    if (!birdActive && Math.random() < 0.1) {
+      birdActive = true;
+
+      bird = {
+        x: -2, // starta utanför vänster sida
+        y: Math.floor(Math.random() * tileCount),
+        speed: 0.2 + Math.random() * 0.3
+      };
+    }
+
+    if (birdActive) {
+      bird.x += bird.speed;
+
+      // Remove bird when outside game box
+      if (bird.x > tileCount + 2) {
+        birdActive = false;
+        bird = null;
+        return
+      }
+
+      // Hit snake
+      if (Math.floor(bird.x) === snake[0].x && bird.y === snake[0].y) {
+        alert("Bird eats you");
+        gameOver();
+      }
+    }
+
         // Check if snake hits itself, but not the head.
     if (snake.length > 1) {
     for (let i = 1; i < snake.length; i++) {
@@ -124,9 +165,16 @@ function update() {
 
 function gameOver(){
     console.log("förlora");
-            clearInterval(game); // stoppa spelet
+            running = false;
             alert("Game Over!");
+
+             // reset snake
             snake = [{ x: tileCount/2, y: tileCount/2 }];
+
+            // reset bird
+            birdActive = false;
+            bird = null;
+            running = true;
 
 }
 
@@ -166,6 +214,18 @@ function draw() {
         poisonSize,
         poisonSize
         );
+
+    const birdSize = 40;
+
+    if(birdActive){
+      ctx.drawImage(
+        birdImg,
+        bird.x*gridSize-(birdSize - gridSize) / 2,
+        bird.y * gridSize - (birdSize - gridSize) / 2,
+        birdSize,
+        birdSize
+      );
+    }
 
 
 
